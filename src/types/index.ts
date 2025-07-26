@@ -3,15 +3,16 @@ export type ColumnType = {
   label: string;
 };
 
-export type Comment = {
-  comment: string;
-  children: Comment[];
-};
-
 export type TaskType = {
   id: number;
   title: string;
   description: string;
   type: string;
-  comments: Comment[];
+  comments: CommentType["id"][];
+};
+
+export type CommentType = {
+  id: number;
+  comment: string;
+  children: CommentType["id"][];
 };

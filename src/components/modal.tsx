@@ -1,8 +1,8 @@
+import { type FC, type PropsWithChildren, type ReactNode } from "react";
 import classNames from "classnames";
-import type { FC, PropsWithChildren } from "react";
 
 interface ModalProps {
-  title: string;
+  title?: ReactNode;
   className?: string;
   onClose: () => void;
 }
@@ -14,32 +14,18 @@ const Modal: FC<PropsWithChildren<ModalProps>> = ({
   onClose,
 }) => {
   return (
-    <div
-      className="fixed inset-0 flex items-center justify-center transition-opacity"
-      role="dialog"
-      aria-modal="true"
-    >
-      <div
-        className=" absolute inset-0 bg-black opacity-50"
-        onClick={(_) => {
-          _.preventDefault();
-          _.stopPropagation();
-
-          onClose();
-        }}
-      />
-      <div
-        className={classNames(
-          "relative z-50 w-[500px] bg-black border border-red-500 shadow-md rounded-md",
-          className
-        )}
-      >
-        <div className="flex justify-between border-b-1 border-red-500 p-4">
-          <h2 className="text-xl">{title}</h2>
-        </div>
+    <dialog className="modal modal-open">
+      <div className={classNames("modal-box opacity-100", className)}>
+        <button
+          className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+          onClick={onClose}
+        >
+          ✕
+        </button>
+        {title && <h3 className="text-lg font-bold p-4 pb-0">{title}</h3>}
         <div className="flex flex-col p-4">{children}</div>
       </div>
-    </div>
+    </dialog>
   );
 };
 

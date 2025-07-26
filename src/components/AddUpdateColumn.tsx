@@ -1,12 +1,17 @@
 import type { FC } from "react";
-import Modal from "./modal";
-import Button from "./button";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { actions, useBoardSelector } from "../store/board";
-import { generateBoardId } from "../utils/board";
 import { useDispatch } from "react-redux";
 
-interface AddColumnModalProps {
+import { actions, useBoardSelector } from "../store/board";
+import { generateBoardId } from "../utils/board";
+
+import Modal from "./Modal";
+import Button from "./Button";
+import Input from "./input";
+import type { ColumnType } from "../types";
+
+interface Props {
+  column?: ColumnType;
   onClose: () => void;
 }
 
@@ -14,7 +19,7 @@ type FormType = {
   name: string;
 };
 
-const AddColumnModal: FC<AddColumnModalProps> = ({ onClose }) => {
+const AddUpdateColumn: FC<Props> = ({ column, onClose }) => {
   const dispatch = useDispatch();
   const { columns } = useBoardSelector();
 
@@ -22,21 +27,33 @@ const AddColumnModal: FC<AddColumnModalProps> = ({ onClose }) => {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm<FormType>();
+  } = useForm<FormType>({
+    defaultValues: {
+      name: column?.label || "",
+    },
+  });
 
   const handleFormSubmit: SubmitHandler<FormType> = (data) => {
-    dispatch(actions.addColumn(data.name));
+    if (column) {
+      dispatch(actions.updateColumn({ id: column.id, label: data.name }));
+    } else {
+      dispatch(actions.addColumn(data.name));
+    }
     onClose();
   };
 
   return (
-    <Modal title={"Add Column"} onClose={onClose}>
+    <Modal
+      title={`${column ? `Editing ${column.label}` : "Create"} Column`}
+      onClose={onClose}
+    >
       <form
         className="flex flex-col gap-4"
         onSubmit={handleSubmit(handleFormSubmit)}
       >
-        <input
-          {...register("name", {
+        <Input
+          label="Column name"
+          rhf={register("name", {
             required: "Column name is required.",
             validate: (value) => {
               const valueId = generateBoardId(value);
@@ -48,15 +65,14 @@ const AddColumnModal: FC<AddColumnModalProps> = ({ onClose }) => {
           })}
           type="text"
           placeholder="Column Name"
-          className="bg-gray-500 rounded-lg p-2"
+          error={errors.name}
         />
-        {errors.name && (
-          <span className="text-red-500 text-sm">{errors.name?.message}</span>
-        )}
-        <Button type="submit">Add Column</Button>
+        <div className="modal-action">
+          <Button type="submit">{column ? "Update" : "Create"} Column</Button>
+        </div>
       </form>
     </Modal>
   );
 };
 
-export default AddColumnModal;
+export default AddUpdateColumn;

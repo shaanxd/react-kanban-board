@@ -1,20 +1,28 @@
 import classNames from "classnames";
-import type { FC } from "react";
-import type { ChangeHandler } from "react-hook-form";
+import type { DetailedHTMLProps, FC, InputHTMLAttributes } from "react";
+import type { FieldError, UseFormRegisterReturn } from "react-hook-form";
 
-interface InputProps {
-  className?: string;
-  value?: string;
-  onChange: ChangeHandler;
-}
+type InputProps = {
+  error?: FieldError;
+  label?: string;
+  rhf: UseFormRegisterReturn;
+} & DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
 
-const Input: FC<InputProps> = ({ className, value, onChange }) => {
+const Input: FC<InputProps> = ({ name, error, label, rhf, ...rest }) => {
   return (
-    <input
-      className={classNames("bg-gray-600 rounded-lg p-2", className)}
-      value={value}
-      onChange={onChange}
-    />
+    <label className="floating-label">
+      <span>{label}</span>
+      <input
+        id={name}
+        {...rest}
+        {...rhf}
+        className={classNames("input w-full", {
+          "input-error": error,
+          "input-primary": !error,
+        })}
+      />
+      {error && <span className="text-error text-sm">{error?.message}</span>}
+    </label>
   );
 };
 

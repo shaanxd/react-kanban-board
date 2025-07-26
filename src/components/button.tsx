@@ -1,10 +1,11 @@
-import classNames from "classnames";
 import type { FC, PropsWithChildren } from "react";
+import React from "react";
+import classNames from "classnames";
 
 interface ButtonProps {
   type?: "button" | "submit";
   className?: string;
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent) => void;
 }
 
 const Button: FC<PropsWithChildren<ButtonProps>> = ({
@@ -16,7 +17,7 @@ const Button: FC<PropsWithChildren<ButtonProps>> = ({
   return (
     <button
       type={type}
-      className={classNames("border-1 border-red-500 p-2", className)}
+      className={classNames("btn btn-primary", className)}
       onClick={onClick}
     >
       {children}
