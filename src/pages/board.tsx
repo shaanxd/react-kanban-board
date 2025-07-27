@@ -15,13 +15,13 @@ import {
   SortableContext,
 } from "@dnd-kit/sortable";
 import { useDispatch } from "react-redux";
+import { MoonIcon, SunIcon } from "@heroicons/react/24/solid";
 
 import { actions, useBoardSelector } from "../store/board";
 
 import Column from "../components/Column";
 import Button from "../components/Button";
 import AddUpdateColumn from "../components/AddUpdateColumn";
-import { MoonIcon, SunIcon } from "@heroicons/react/24/solid";
 
 const Board: FC = () => {
   const dispatch = useDispatch();
@@ -65,9 +65,11 @@ const Board: FC = () => {
   };
 
   return (
-    <div className="flex flex-col flex-1 p-4 gap-4">
+    <div className="flex flex-col flex-1 p-4 gap-4 w-screen">
       <div className="flex justify-between">
-        <h1 className="text-4xl my-auto">React Kanban Board</h1>
+        <h1 className="md:text-xl lg:text-2xl xl:text-3xl my-auto">
+          Kanban Board
+        </h1>
         <div className="flex gap-4">
           <label className="flex cursor-pointer gap-2 my-auto">
             <MoonIcon className="size-4 my-auto" />
@@ -75,6 +77,7 @@ const Board: FC = () => {
               type="checkbox"
               value="lofi"
               className="toggle theme-controller"
+              aria-label="Switch theme"
             />
             <SunIcon className="size-4 my-auto" />
           </label>
@@ -87,7 +90,7 @@ const Board: FC = () => {
           </Button>
         </div>
       </div>
-      <div className="flex flex-row flex-1 gap-4">
+      <div className="flex flex-row flex-1 gap-4 overflow-auto">
         <DndContext
           sensors={sensors}
           collisionDetection={closestCenter}

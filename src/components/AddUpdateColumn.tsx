@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useDispatch } from "react-redux";
+import toast from "react-hot-toast";
 
 import { actions, useBoardSelector } from "../store/board";
 import { generateBoardId } from "../utils/board";
@@ -39,6 +40,7 @@ const AddUpdateColumn: FC<Props> = ({ column, onClose }) => {
     } else {
       dispatch(actions.addColumn(data.name));
     }
+    toast(`Column ${column ? "updated" : "created"} successfully!`);
     onClose();
   };
 

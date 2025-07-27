@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import { useDispatch } from "react-redux";
 import { useForm, type SubmitHandler } from "react-hook-form";
+import toast from "react-hot-toast";
 
 import type { TaskType } from "../types";
 import { actions } from "../store/board";
@@ -40,21 +41,19 @@ const AddUpdateTask: FC<Props> = ({ task, column, onClose }) => {
   });
 
   const handleFormSubmit: SubmitHandler<FormType> = (data) => {
-    console.log("[X]", data);
     if (task) {
       dispatch(actions.updateTask({ ...task, ...data }));
-      onClose();
-      return;
+    } else {
+      const newTask = {
+        id: generateEntityId(),
+        ...data,
+        type: column,
+        comments: [],
+      };
+      dispatch(actions.addTask(newTask));
     }
 
-    const newTask = {
-      id: generateEntityId(),
-      ...data,
-      type: column,
-      comments: [],
-    };
-
-    dispatch(actions.addTask(newTask));
+    toast(`Task ${task ? "updated" : "created"} successfully!`);
     onClose();
   };
 

@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import { useDispatch } from "react-redux";
+import toast from "react-hot-toast";
 
 import type { ColumnType } from "../types";
 import { actions } from "../store/board";
@@ -16,6 +17,7 @@ const DeleteColumn: FC<Props> = ({ column, onClose }) => {
 
   const handleOnConfirm = () => {
     dispatch(actions.removeColumn(column.id));
+    toast("Column Deleted Successfully!");
     onClose();
   };
 

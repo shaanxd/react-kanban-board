@@ -73,42 +73,50 @@ const Column: FC<ColumnProps> = ({ column }) => {
 
   return (
     <div
-      className="card bg-primary text-primary-content min-w-sm flex-1 shadow-2xl"
+      className="card bg-base-200 text-base-content min-w-sm flex-1 shadow-2xl border-1"
       ref={setDraggableNodeRef}
       style={draggableStyle}
       {...attributes}
     >
-      <div className="relative flex flex-1 flex-col border-5">
+      <div className="relative flex flex-1 flex-col rounded-md">
         <DragHandler {...listeners} />
-        <div className="flex gap-4 border-b-5 p-4">
-          <h2 className="text-2xl my-auto">
+        <div className="flex gap-4 border-b-1 p-4">
+          <h2 className="md:text-md lg:text-lg xl:text-xl my-auto">
             {column.label}{" "}
-            <span className="badge badge-secondary my-auto rounded-xl p-2">
+            <span className="badge badge-primary my-auto rounded-xl p-2">
               {tasks.length}
             </span>
           </h2>
-          <Button className="ml-auto p-3" onClick={handleDeleteColumn}>
-            <TrashIcon className="size-4 text-primary-content" />
+          <Button
+            className="ml-auto p-3"
+            onClick={handleDeleteColumn}
+            label="Delete Column"
+          >
+            <TrashIcon className="size-4" />
           </Button>
-          <Button className="p-3" onClick={handleEditColumn}>
-            <PencilIcon className="size-4 text-primary-content" />
+          <Button
+            className="p-3"
+            onClick={handleEditColumn}
+            label="Edit Column"
+          >
+            <PencilIcon className="size-4" />
           </Button>
-          <Button className="p-3" onClick={handleAddTask}>
-            <PlusCircleIcon className="size-4 text-primary-content" />
+          <Button className="p-3" onClick={handleAddTask} label="Add Task">
+            <PlusCircleIcon className="size-4" />
           </Button>
         </div>
         <div
           className="card-body relative flex-1 flex flex-col gap-4"
           ref={setNodeRef}
         >
+          {tasks.map((task) => (
+            <Task key={task.id} task={task} />
+          ))}
           {!isDragging && isOver && (
             <div className="absolute inset-0 bg-black opacity-50 text-3xl flex border-1 justify-center items-center">
               <span>{column.label}</span>
             </div>
           )}
-          {tasks.map((task) => (
-            <Task key={task.id} task={task} />
-          ))}
         </div>
         {isDeletePromptOpen && (
           <DeleteColumn column={column} onClose={handleDeleteCancel} />

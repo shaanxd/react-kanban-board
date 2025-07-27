@@ -8,7 +8,14 @@ type InputProps = {
   rhf: UseFormRegisterReturn;
 } & DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
 
-const Input: FC<InputProps> = ({ name, error, label, rhf, ...rest }) => {
+const Input: FC<InputProps> = ({
+  name,
+  error,
+  label,
+  rhf,
+  className,
+  ...rest
+}) => {
   return (
     <label className="floating-label">
       <span>{label}</span>
@@ -16,7 +23,7 @@ const Input: FC<InputProps> = ({ name, error, label, rhf, ...rest }) => {
         id={name}
         {...rest}
         {...rhf}
-        className={classNames("input w-full", {
+        className={classNames("input w-full", className, {
           "input-error": error,
           "input-primary": !error,
         })}

@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import { useDispatch } from "react-redux";
+import toast from "react-hot-toast";
 
 import type { TaskType } from "../types";
 import { actions } from "../store/board";
@@ -16,6 +17,7 @@ const DeleteTask: FC<Props> = ({ task, onClose }) => {
 
   const handleOnConfirm = () => {
     dispatch(actions.deleteTask(task.id));
+    toast("Task Deleted Successfully!");
     onClose();
   };
 

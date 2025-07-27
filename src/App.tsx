@@ -1,7 +1,14 @@
+import { Toaster } from "react-hot-toast";
+
 import { Board } from "./pages";
 
 function App() {
-  return <Board />;
+  return (
+    <>
+      <Board />
+      <Toaster />
+    </>
+  );
 }
 
 export default App;

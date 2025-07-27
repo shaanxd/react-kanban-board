@@ -2,6 +2,7 @@ import { useState, type FC } from "react";
 import type { CommentType } from "../types";
 import { useCommentSelector } from "../store/board";
 import Button from "./Button";
+import classNames from "classnames";
 
 type Props = {
   id: CommentType["id"];
@@ -29,7 +30,12 @@ const Comment: FC<Props> = ({ id, level, onReplyTo }) => {
   const doesCommentHaveChildren = comment.children.length !== 0;
 
   return (
-    <div className="card border-1 rounded-none">
+    <div
+      className={classNames(
+        "card border-1 rounded-none",
+        level % 2 !== 0 ? "bg-base-100" : "bg-base-300"
+      )}
+    >
       <div className="card-body flex flex-col p-4 gap-4">
         <div className="flex gap-4">{comment.comment}</div>
         <div className="flex justify-end gap-2">
@@ -45,7 +51,7 @@ const Comment: FC<Props> = ({ id, level, onReplyTo }) => {
           )}
         </div>
         {doesCommentHaveChildren && areChildrenVisible && (
-          <div className="ml-5 flex flex-col">
+          <div className="ml-3 flex flex-col">
             {comment.children.map((child) => (
               <Comment
                 key={child}

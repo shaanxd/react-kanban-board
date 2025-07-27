@@ -1,13 +1,11 @@
 import { useEffect, useState, type FC } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
+import classNames from "classnames";
+import toast from "react-hot-toast";
 
-import { type ColumnType, type CommentType, type TaskType } from "../types";
-import {
-  actions,
-  useColumnSelector,
-  useColumnTaskSelector,
-} from "../store/board";
+import { type CommentType, type TaskType } from "../types";
+import { actions, useColumnSelector } from "../store/board";
 import { generateEntityId } from "../utils/board";
 
 import Input from "./input";
@@ -48,6 +46,7 @@ const TaskDetails: FC<Props> = ({ task, onClose }) => {
     };
 
     dispatch(actions.addComment(params));
+    toast("Posted comment!");
     reset();
     setReplyingTo(null);
   };
@@ -70,7 +69,7 @@ const TaskDetails: FC<Props> = ({ task, onClose }) => {
         <span className="text-sm">{task.description}</span>
 
         <h3 className="text-xl">Comments</h3>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 max-h-[300px] overflow-auto">
           {task.comments.map((comment) => {
             return (
               <Comment
@@ -83,20 +82,6 @@ const TaskDetails: FC<Props> = ({ task, onClose }) => {
           })}
         </div>
         <form onSubmit={handleSubmit(handleOnCommentSubmit)}>
-          {replyingTo && (
-            <div className="flex justify-between">
-              <span className="text-primary-content">
-                Replying to: {replyingTo?.comment?.substring(0, 10)}...
-              </span>
-              <button
-                type="button"
-                className="btn btn-xs btn-ghost"
-                onClick={handleOnReplyToCancel}
-              >
-                ✕
-              </button>
-            </div>
-          )}
           <Input
             label={replyingTo ? "" : "Comment"}
             rhf={register("comment", {
@@ -104,7 +89,22 @@ const TaskDetails: FC<Props> = ({ task, onClose }) => {
             })}
             type="text"
             placeholder="Write your comment here.."
+            className={classNames({ "rounded-t-none": replyingTo })}
           />
+          {replyingTo && (
+            <div className="flex justify-between rounded-b-lg bg-primary text-primary-content px-2">
+              <span className="truncate">
+                Replying to: {replyingTo?.comment}
+              </span>
+              <button
+                type="button"
+                className="btn btn-xs p-0 btn-ghost"
+                onClick={handleOnReplyToCancel}
+              >
+                ✕
+              </button>
+            </div>
+          )}
         </form>
       </div>
     </Modal>

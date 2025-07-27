@@ -25,7 +25,7 @@ const Task: FC<Props> = ({ task }) => {
     transform: transform
       ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
       : undefined,
-    zIndex: isDragging ? 50 : 0,
+    zIndex: isDragging ? 50 : 1,
   };
 
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
@@ -56,8 +56,7 @@ const Task: FC<Props> = ({ task }) => {
     <>
       <div
         className={classNames(
-          "card shadow-2xl border-5 relative cursor-pointer text-start",
-          { "bg-primary": isDragging }
+          "card bg-base-300 text-base-content shadow-2xl border-1 relative cursor-pointer text-start"
         )}
         ref={setNodeRef}
         style={style}
@@ -71,14 +70,20 @@ const Task: FC<Props> = ({ task }) => {
       >
         <DragHandler {...listeners} />
         <div className="card-body flex flex-col">
-          <h3 className="text-xl">{task.title}</h3>
-          <span className="text-sm truncate">{task.description}</span>
+          <h3 className="md:text-md lg:text-lg xl:text-xl">{task.title}</h3>
+          <span className="md:text-xs lg:text-sm truncate">
+            {task.description}
+          </span>
           <div className="flex ml-auto gap-4">
-            <Button className="p-3" onClick={handleOnEdit}>
-              <PencilIcon className="size-4 text-primary-content" />
+            <Button className="p-3" onClick={handleOnEdit} label="Edit Task">
+              <PencilIcon className="size-4" />
             </Button>
-            <Button className="p-3" onClick={handleOnDelete}>
-              <TrashIcon className="size-4 text-primary-content" />
+            <Button
+              className="p-3"
+              onClick={handleOnDelete}
+              label="Delete Task"
+            >
+              <TrashIcon className="size-4" />
             </Button>
           </div>
         </div>
