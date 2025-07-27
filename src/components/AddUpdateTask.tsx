@@ -5,11 +5,11 @@ import toast from "react-hot-toast";
 
 import type { TaskType } from "../types";
 import { actions } from "../store/board";
+import { generateEntityId } from "../utils/board";
 
 import Modal from "./Modal";
 import Button from "./Button";
-import Input from "./input";
-import { generateEntityId } from "../utils/board";
+import Input from "./Input";
 
 type Props = {
   task?: TaskType;

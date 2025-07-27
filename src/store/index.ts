@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import { reducer as board } from "./board";
+import { reducer as board, type BoardReducer } from "./board";
 
 const getPersistedState = () => {
   const prevState = localStorage.getItem("APP_STATE");
@@ -8,7 +8,7 @@ const getPersistedState = () => {
   if (!prevState) {
     return undefined;
   }
-  return JSON.parse(prevState);
+  return JSON.parse(prevState) as { board: BoardReducer };
 };
 
 export const store = configureStore({

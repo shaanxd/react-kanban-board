@@ -14,10 +14,11 @@ import {
   horizontalListSortingStrategy,
   SortableContext,
 } from "@dnd-kit/sortable";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { MoonIcon, SunIcon } from "@heroicons/react/24/solid";
 
-import { actions, useBoardSelector } from "../store/board";
+import { actions } from "../store/board";
+import { selectBoard } from "../selectors/board";
 
 import Column from "../components/Column";
 import Button from "../components/Button";
@@ -34,7 +35,7 @@ const Board: FC = () => {
     useSensor(TouchSensor)
   );
 
-  const { columns, tasks } = useBoardSelector();
+  const { columns, tasks } = useSelector(selectBoard);
 
   const handleOnDragEnd = ({ active, over }: DragEndEvent) => {
     /** Nothing to do if no drag/drag IDs */

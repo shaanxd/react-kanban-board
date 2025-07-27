@@ -1,6 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { useSelector } from "react-redux";
-import type { RootState } from ".";
+
 import { generateBoardId } from "../utils/board";
 import type { ColumnType, CommentType, TaskType } from "../types";
 
@@ -10,6 +9,12 @@ const getDefaultColumns = () => {
     { id: "in-progress", label: "In Progress" },
     { id: "completed", label: "Completed" },
   ];
+};
+
+export type BoardReducer = {
+  columns: ColumnType[];
+  tasks: TaskType[];
+  comments: Record<number, CommentType>;
 };
 
 export const { actions, reducer } = createSlice({
@@ -86,23 +91,3 @@ export const { actions, reducer } = createSlice({
     },
   },
 });
-
-export const useBoardSelector = () => {
-  return useSelector((state: RootState) => state.board);
-};
-
-export const useColumnSelector = (id: string) => {
-  return useSelector((state: RootState) =>
-    state.board.columns.find((c) => c.id === id)
-  );
-};
-
-export const useColumnTaskSelector = (column: string) => {
-  return useSelector((state: RootState) =>
-    state.board.tasks.filter(({ type }) => type === column)
-  );
-};
-
-export const useCommentSelector = (id: number) => {
-  return useSelector((state: RootState) => state.board.comments[id]);
-};

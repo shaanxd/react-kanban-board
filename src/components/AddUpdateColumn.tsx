@@ -1,15 +1,16 @@
 import type { FC } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 
-import { actions, useBoardSelector } from "../store/board";
+import { actions } from "../store/board";
 import { generateBoardId } from "../utils/board";
+import { selectBoard } from "../selectors/board";
+import type { ColumnType } from "../types";
 
 import Modal from "./Modal";
 import Button from "./Button";
-import Input from "./input";
-import type { ColumnType } from "../types";
+import Input from "./Input";
 
 interface Props {
   column?: ColumnType;
@@ -22,7 +23,7 @@ type FormType = {
 
 const AddUpdateColumn: FC<Props> = ({ column, onClose }) => {
   const dispatch = useDispatch();
-  const { columns } = useBoardSelector();
+  const { columns } = useSelector(selectBoard);
 
   const {
     register,

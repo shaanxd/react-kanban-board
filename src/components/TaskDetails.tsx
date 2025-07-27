@@ -1,14 +1,15 @@
 import { useEffect, useState, type FC } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import classNames from "classnames";
 import toast from "react-hot-toast";
 
 import { type CommentType, type TaskType } from "../types";
-import { actions, useColumnSelector } from "../store/board";
+import { actions } from "../store/board";
 import { generateEntityId } from "../utils/board";
+import { selectColumn } from "../selectors/board";
 
-import Input from "./input";
+import Input from "./Input";
 import Modal from "./Modal";
 import Comment from "./Comment";
 
@@ -24,7 +25,7 @@ type FormType = {
 const TaskDetails: FC<Props> = ({ task, onClose }) => {
   const dispatch = useDispatch();
 
-  const column = useColumnSelector(task.type);
+  const column = useSelector(selectColumn(task.type));
 
   const [replyingTo, setReplyingTo] = useState<CommentType | null>(null);
 

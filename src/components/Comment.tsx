@@ -1,8 +1,11 @@
 import { useState, type FC } from "react";
-import type { CommentType } from "../types";
-import { useCommentSelector } from "../store/board";
-import Button from "./Button";
 import classNames from "classnames";
+import { useSelector } from "react-redux";
+
+import type { CommentType } from "../types";
+import { selectComment } from "../selectors/board";
+
+import Button from "./Button";
 
 type Props = {
   id: CommentType["id"];
@@ -11,7 +14,7 @@ type Props = {
 };
 
 const Comment: FC<Props> = ({ id, level, onReplyTo }) => {
-  const comment = useCommentSelector(id);
+  const comment = useSelector(selectComment(id));
 
   const [areChildrenVisible, setAreChildrenVisible] = useState(level === 0);
 

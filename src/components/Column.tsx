@@ -7,9 +7,10 @@ import {
   PencilIcon,
   TrashIcon,
 } from "@heroicons/react/24/solid";
+import { useSelector } from "react-redux";
 
 import type { ColumnType } from "../types";
-import { useColumnTaskSelector } from "../store/board";
+import { selectTasksByType } from "../selectors/board";
 
 import DeleteColumn from "./DeleteColumn";
 import AddUpdateTask from "./AddUpdateTask";
@@ -41,7 +42,7 @@ const Column: FC<ColumnProps> = ({ column }) => {
     transition,
   };
 
-  const tasks = useColumnTaskSelector(column.id);
+  const tasks = useSelector(selectTasksByType(column.id));
 
   const [isAddTaskOpen, setIsAddTaskOpen] = useState(false);
   const [isDeletePromptOpen, setIsDeletePromptOpen] = useState(false);
