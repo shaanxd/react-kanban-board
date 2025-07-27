@@ -74,7 +74,7 @@ const Column: FC<ColumnProps> = ({ column }) => {
 
   return (
     <div
-      className="card bg-base-200 text-base-content min-w-sm flex-1 shadow-2xl border-1"
+      className="card bg-base-200 text-base-content min-w-xs flex-1 shadow-2xl border-1"
       ref={setDraggableNodeRef}
       style={draggableStyle}
       {...attributes}
@@ -107,17 +107,17 @@ const Column: FC<ColumnProps> = ({ column }) => {
           </Button>
         </div>
         <div
-          className="card-body relative flex-1 flex flex-col gap-4"
+          className="card-body relative flex flex-col flex-[1_1_0] gap-4"
           ref={setNodeRef}
         >
-          {tasks.map((task) => (
-            <Task key={task.id} task={task} />
-          ))}
           {!isDragging && isOver && (
-            <div className="absolute inset-0 bg-black opacity-50 text-3xl flex border-1 justify-center items-center">
+            <div className="absolute inset-0 bg-black opacity-50 text-3xl flex border-1 justify-center items-center z-[2]">
               <span>{column.label}</span>
             </div>
           )}
+          {tasks.map((task) => (
+            <Task key={task.id} task={task} />
+          ))}
         </div>
         {isDeletePromptOpen && (
           <DeleteColumn column={column} onClose={handleDeleteCancel} />
